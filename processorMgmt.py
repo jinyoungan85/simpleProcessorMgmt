@@ -1,5 +1,7 @@
 # ITEC 3265 OS Assignment3, Due 10/20/2023
 # Jin-Young An 
+import matplotlib.pyplot as plt
+
 
 class Process:
     # Constructor of Process class and its attributes 
@@ -21,7 +23,7 @@ class Scheduler:
     def add_process(self, process):
         self.readyQueue.append(process)
         
-    def resetSchedulerTime(self):
+    def resetSchedulerTime(self):       # reset the scheduler time and total turnaround time
         self.currentTime = 0
         self.totalTurnaroundTime = 0
         
@@ -53,7 +55,6 @@ class Scheduler:
             # move the current time to the arrival time to simulate the process arrival
             if process.arrivalTime > self.currentTime:
                 self.currentTime = process.arrivalTime
-                print("currentTime: ", self.currentTime)
             # calculate the waiting time = time a process spent waiting in readyQueue before execution
             process.waitingTime = self.currentTime - process.arrivalTime
             # calculate the turnaround time of a process: turnaround time = waiting time + burst time
@@ -74,13 +75,13 @@ class Scheduler:
         for process in self.readyQueue:
             if process.arrivalTime > self.currentTime:
                 self.currentTime = process.arrivalTime
-                print("currentTime: ", self.currentTime)
             process.waitingTime = self.currentTime - process.arrivalTime
             process.turnaroundTime = process.waitingTime + process.burstTime
             print(f"Process {process.processID} waiting time: {process.waitingTime} "
                   f"burst time: {process.burstTime} turnaround time: {process.turnaroundTime}")
             self.calculate_metrics(process)
             self.currentTime += process.burstTime
+            self.totalTurnaroundTime += process.turnaroundTime
                 
     # Priority Scheduling Algorithm
     def priority(self):
@@ -106,20 +107,25 @@ def main():
     scheduler.add_process(process2)
     scheduler.add_process(process3)
     scheduler.add_process(process4)
-    scheduler.run_scheduling_algorithm("FCFS")  # run the scheduling algorithm, FCFS
-    print("Total time elapsed: ", scheduler.currentTime)
-    # Average Turnaround Time = (Sum of Turnaround Time of all processes) / (Number of processes)
-    print(f"Average Turnaround Time: {scheduler.totalTurnaroundTime / len(scheduler.readyQueue):.2f}")
-    scheduler.resetSchedulerTime()                 
     
-    scheduler.run_scheduling_algorithm("SJF")   # run the scheduling algorithm, SJF
-    print("Total time elapsed: ", scheduler.currentTime)
-    # Average Turnaround Time = (Sum of Turnaround Time of all processes) / (Number of processes)
-    print(f"Average Turnaround Time: {scheduler.totalTurnaroundTime / len(scheduler.readyQueue):.2f}")
-    scheduler.resetSchedulerTime()  
+    algorithmNames = ["FCFS", "SJF"]  # Add more algorithm names as needed
+    average_turnaround_times = []
     
-    #scheduler.run_scheduling_algorithm("FCFS")  # run the scheduling algorithm, Priority
-    #scheduler.resetScheduler()  
+    for algorithm in algorithmNames:
+        scheduler.run_scheduling_algorithm(algorithm)  # run the scheduling algorithm, FCFS
+        print("Total time elapsed: ", scheduler.currentTime)
+        # Average Turnaround Time = (Sum of Turnaround Time of all processes) / (Number of processes)
+        average_turnaround = scheduler.totalTurnaroundTime / len(scheduler.readyQueue)
+        average_turnaround_times.append(average_turnaround)
+        print(f"Average Turnaround Time: {average_turnaround:.2f}")
+        scheduler.resetSchedulerTime()                 
+    
+    print(average_turnaround_times)
+    plt.bar(algorithmNames, average_turnaround_times)
+    plt.xlabel("Scheduling Algorithm")
+    plt.ylabel("Average Turnaround Time")
+    plt.title("Average Turnaround Time Among Scheduling Algorithms")
+    plt.show()
     
     
 if __name__ == "__main__":
