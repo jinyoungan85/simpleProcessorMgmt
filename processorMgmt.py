@@ -1,8 +1,5 @@
 # ITEC 3265 OS Assignment3, Due 10/20/2023
 # Jin-Young An 
-# 1. The Python source code for your Processor Management Program.
-# 2. A README file providing instructions on how to run your program
-#    and any additional information.
 
 class Process:
     # Constructor of Process class and its attributes 
@@ -12,18 +9,24 @@ class Process:
         self.arrivalTime = arrivalTime  # time when a process arrives in the ready queue
         self.burstTime = burstTime      # amount of time needed to complete a process
         self.waitingTime = 0            # amount of time a process waits in the ready queue
-        self.priority = priority        # priority of a process (optional)
+        self.priority = priority        # priority of a process (optional), by default None
     
 class Scheduler:
     # Constructor of Scheduler class and its attributes
     def __init__(self):
         self.readyQueue = []           # list of processes in the ready queue
         self.currentTime = 0           # current time
+        self.totalTurnaroundTime = 0    # total turnaround time of all processes
         
     def add_process(self, process):
         self.readyQueue.append(process)
         
+    def resetSchedulerTime(self):
+        self.currentTime = 0
+        self.totalTurnaroundTime = 0
+        
     def run_scheduling_algorithm(self, algorithm):
+        print("\nRunning scheduling algorithm: ", algorithm)
         if algorithm == "FCFS":
             # sort the ready queue by ascending order of arrival time
             # 'key' parameter calls a function on each list element before making comparisons for sorting
@@ -63,11 +66,22 @@ class Scheduler:
             self.calculate_metrics(process)
             # move the current time to the end of the process execution
             self.currentTime += process.burstTime
-    
+            # update total turnaround time upon each process completion
+            self.totalTurnaroundTime += process.turnaroundTime
+            
     # Shortest Job First (SJF) Scheduling Algorithm
     def sjf(self):
-        pass
-    
+        for process in self.readyQueue:
+            if process.arrivalTime > self.currentTime:
+                self.currentTime = process.arrivalTime
+                print("currentTime: ", self.currentTime)
+            process.waitingTime = self.currentTime - process.arrivalTime
+            process.turnaroundTime = process.waitingTime + process.burstTime
+            print(f"Process {process.processID} waiting time: {process.waitingTime} "
+                  f"burst time: {process.burstTime} turnaround time: {process.turnaroundTime}")
+            self.calculate_metrics(process)
+            self.currentTime += process.burstTime
+                
     # Priority Scheduling Algorithm
     def priority(self):
         pass
@@ -83,12 +97,30 @@ class Scheduler:
 # Run a scenario and print the results with visualizations
 def main():
     process1 = Process(processID=1, arrivalTime=5, burstTime=10)
-    process2 = Process(processID=2, arrivalTime=10, burstTime=10)
+    process2 = Process(processID=2, arrivalTime=10, burstTime=15)
+    process3 = Process(processID=3, arrivalTime=30, burstTime=20)
+    process4 = Process(processID=4, arrivalTime=40, burstTime=5)
     
     scheduler = Scheduler()             # create a scheduler object
     scheduler.add_process(process1)     # add processes to the readyQueue of the scheduler object
     scheduler.add_process(process2)
-    scheduler.run_scheduling_algorithm("FCFS")  # run the scheduling algorithm
+    scheduler.add_process(process3)
+    scheduler.add_process(process4)
+    scheduler.run_scheduling_algorithm("FCFS")  # run the scheduling algorithm, FCFS
+    print("Total time elapsed: ", scheduler.currentTime)
+    # Average Turnaround Time = (Sum of Turnaround Time of all processes) / (Number of processes)
+    print(f"Average Turnaround Time: {scheduler.totalTurnaroundTime / len(scheduler.readyQueue):.2f}")
+    scheduler.resetSchedulerTime()                 
+    
+    scheduler.run_scheduling_algorithm("SJF")   # run the scheduling algorithm, SJF
+    print("Total time elapsed: ", scheduler.currentTime)
+    # Average Turnaround Time = (Sum of Turnaround Time of all processes) / (Number of processes)
+    print(f"Average Turnaround Time: {scheduler.totalTurnaroundTime / len(scheduler.readyQueue):.2f}")
+    scheduler.resetSchedulerTime()  
+    
+    #scheduler.run_scheduling_algorithm("FCFS")  # run the scheduling algorithm, Priority
+    #scheduler.resetScheduler()  
+    
     
 if __name__ == "__main__":
     main()
