@@ -1,4 +1,6 @@
-# ITEC 3265 OS Assignment3, Due 10/20/2023, Written by Jin-Young An 
+# @jinyoungan85
+# Github: https://github.com/jinyoungan85/simpleProcessorMgmt.git
+
 import matplotlib.pyplot as plt
 
 
