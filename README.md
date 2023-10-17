@@ -13,12 +13,13 @@ The goal of this Python code is to simulate different scheduling algorithms (FCF
 
 ### Required Dependency
 Please install the followings if needed:
+
 -Python 3.8
 -matplotlib 3.7.2
 
 ```bash
-conda install python
-conda install matplotlib
+    conda install python
+    conda install matplotlib
 ```
 
 ### Required Dependencies
@@ -32,11 +33,12 @@ You can install Python from the official website: [Python Downloads](https://www
 To install Matplotlib, you can use the following command:
 
 ```bash
-conda install matplotlib
+    conda install matplotlib
 ```
 
 ## Usage
 Once you've installed the required dependencies, you can run the Python code using the following command:
+
 ```bash
-python processorMgmt.py
+    python processorMgmt.py
 ```
