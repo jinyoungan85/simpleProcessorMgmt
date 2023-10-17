@@ -14,8 +14,8 @@ The goal of this Python code is to simulate different scheduling algorithms (FCF
 ### Required Dependency
 Please install the followings if needed:
 
--Python 3.8
--matplotlib 3.7.2
+- Python 3.8
+- matplotlib 3.7.2
 
 ```bash
     conda install python
