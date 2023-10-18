@@ -7,7 +7,9 @@ a Python program that simulates the execution of processes on a CPU using differ
 - [Usage](#usage)
 
 ## About
-The goal of this Python code is to simulate different scheduling algorithms (FCFS, SJF, Priority) on processes with various attributes such as processID, arrivalTime, burstTime, and priority. The code collects the result of each scheduling algorihm visualize it in a bar plot for easier comparison.
+The goal of this Python code is to simulate different scheduling algorithms (FCFS, SJF, Priority) on processes with various attributes such as processID, arrivalTime, burstTime, and priority. The code collects the result of each scheduling algorithhm, and visualize the result in a bar plot for easier comparison.
+
+By default, this code simulates 100 processes with parameters stored in processes.txt. If processes.txt does not exist, the code will generate the file with random numbers.
 
 ## Getting Started
 
@@ -37,7 +39,13 @@ To install Matplotlib, you can use the following command:
 ```
 
 ## Usage
-Once you've installed the required dependencies, you can run the Python code using the following command:
+Once you've installed the required dependencies, clone the repository into your local system using below command:
+
+```bash
+    git clone https://github.com/jinyoungan85/simpleProcessorMgmt.git
+```
+
+Navigate to your local repository, run the Python code using the following command:
 
 ```bash
     python processorMgmt.py

@@ -2,6 +2,8 @@
 # Github: https://github.com/jinyoungan85/simpleProcessorMgmt.git
 
 import matplotlib.pyplot as plt
+import os
+import random
 
 
 class Process:
@@ -78,18 +80,37 @@ class Scheduler:
         self.totalWaitingTime += process.waitingTime
         self.totalTurnaroundTime += process.turnaroundTime
         
-# Run a scenario and print the results with visualizations
+# Run a simulation scenario and print the results in a text and a bar graph
 def main():
-    process1 = Process(processID=1, arrivalTime=5, burstTime=10, priority=3)
-    process2 = Process(processID=2, arrivalTime=10, burstTime=15, priority=1)
-    process3 = Process(processID=3, arrivalTime=30, burstTime=20, priority=2)
-    process4 = Process(processID=4, arrivalTime=40, burstTime=5, priority=4)
+    processList = []      # a list to hold processes
+    NUM_PROCESSES = 100   # number of processes to simulate
     
+    # Generate processes and append them to processList if processes.txt is not found
+    if not os.path.exists(".\processes.txt"):
+        for _ in range(NUM_PROCESSES):
+            processID = random.randint(1, 99)
+            arrivalTime = random.randint(1, 99)
+            burstTime = random.randint(1, 99)
+            priority = random.randint(1, 99)
+            processList.append(Process(processID, arrivalTime, burstTime, priority))
+
+        # Write the processes data to a txt file withing the same directory
+        with open(".\processes.txt", "w") as outfile:
+            for process in processList:
+                outfile.write(f"{process.processID},{process.arrivalTime},{process.burstTime},{process.priority}\n")
+    
+    else:
+        print("Found processes.txt. Reading processes from the file...")
+        with open(".\processes.txt", "r") as infile:      # read processes from the file
+            for line in infile:
+                line = line.strip()                       # remove leading and trailing whitespace
+                processID, arrivalTime, burstTime, priority = line.split(",")
+                process = Process(processID, int(arrivalTime), int(burstTime), int(priority))
+                processList.append(process)
+        
     scheduler = Scheduler()             # create a scheduler object
-    scheduler.add_process(process1)     # add processes to the readyQueue of the scheduler object created
-    scheduler.add_process(process2)
-    scheduler.add_process(process3)
-    scheduler.add_process(process4)
+    for process in processList:
+        scheduler.add_process(process)  # add processes to the readyQueue of the scheduler object
     
     algorithmNames = ["FCFS", "SJF", "Priority"]  # Add more algorithm names as needed
     average_turnaround_times = []     # a list to hold average turnaround times of scheduling algorithms
@@ -105,9 +126,15 @@ def main():
         average_turnaround_times.append(average_turnaround)
         print(f"Average Waiting Time: {average_waiting:.2f}")
         print(f"Average Turnaround Time: {average_turnaround:.2f}")
-        scheduler.resetSchedulerTime()      # reset the scheduler time and total turnaround time                 
+        scheduler.resetSchedulerTime()      # reset the scheduler time and total turnaround time
         
-    # visualize the average turnaround times and average waiting times of scheduling algorithms by plotting a bar graph
+    # print the average metrics for each algorithm in a table for easier comparison
+    print(f"\nThe number of processes simulated: {len(processList)}")
+    print(" Algorithm\tAverage Turnaround Time(ms)\tAverage Waiting Time(ms)")
+    for i in range(len(algorithmNames)):
+        print(f"{algorithmNames[i]:>10}\t{average_turnaround_times[i]:<10.2f}\t\t\t{average_waiting_times[i]:<10.2f}")                   
+        
+    # visualize the average metrics of scheduling algorithms by plotting a bar graph
     barWidth = 0.25
     r1 = range(len(algorithmNames))    # a list for x-coordinates of bars for average turnaround times
     r2 = [x + barWidth for x in r1]    # a list for x-coordinates of bars for average waiting times
@@ -119,6 +146,10 @@ def main():
     plt.xticks([r + barWidth/2 for r in range(len(algorithmNames))], algorithmNames)  # put labels on x-axis, xticks([x-coordinates], [labels])
     plt.title("Average Turnaround Time and Average Waiting Time Among Scheduling Algorithms")
     plt.legend()
+    # Add labels with average metrics above the bars
+    for i in range(len(algorithmNames)):
+        plt.text(r1[i], average_turnaround_times[i], f'{average_turnaround_times[i]:.2f}', ha='center', va='bottom', fontsize=9)
+        plt.text(r2[i], average_waiting_times[i], f'{average_waiting_times[i]:.2f}', ha='center', va='bottom', fontsize=9)
     plt.show()
     
     
