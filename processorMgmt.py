@@ -2,8 +2,7 @@
 # Github: https://github.com/jinyoungan85/simpleProcessorMgmt.git
 
 import matplotlib.pyplot as plt
-import os
-import random
+import os, random
 
 
 class Process:
@@ -22,7 +21,8 @@ class Scheduler:
         self.readyQueue = []           # list of processes in the ready queue
         self.currentTime = 0           # current time
         self.totalWaitingTime = 0      # total waiting time of all processes
-        self.totalTurnaroundTime = 0    # total turnaround time of all processes
+        self.totalExecutionTime = 0    # total execution time = sum of burst times of all processes
+        self.totalTurnaroundTime = 0   # total turnaround time of all processes
         
     def add_process(self, process):
         self.readyQueue.append(process)
@@ -31,6 +31,7 @@ class Scheduler:
         self.currentTime = 0
         self.totalWaitingTime = 0
         self.totalTurnaroundTime = 0
+        self.totalExecutionTime = 0
         
     def run_scheduling_algorithm(self, algorithm):
         print("\nRunning scheduling algorithm: ", algorithm)
@@ -79,6 +80,7 @@ class Scheduler:
         self.currentTime += process.burstTime
         self.totalWaitingTime += process.waitingTime
         self.totalTurnaroundTime += process.turnaroundTime
+        self.totalExecutionTime += process.burstTime
         
 # Run a simulation scenario and print the results in a text and a bar graph
 def main():
@@ -114,25 +116,27 @@ def main():
     
     algorithmNames = ["FCFS", "SJF", "Priority"]  # Add more algorithm names as needed
     average_turnaround_times = []     # a list to hold average turnaround times of scheduling algorithms
-    average_waiting_times = []        # a list to hold average waiting times of scheduling algorithms
+    average_waiting_times = []        # a list to hold average waiting times of scheduling algorithms        
+    cpu_utilizations = []             # a list to hold cpu utilizations of scheduling algorithms
     
     for algorithm in algorithmNames:
         scheduler.run_scheduling_algorithm(algorithm)  # run the scheduling algorithm
-        print("Total time elapsed: ", scheduler.currentTime) # display the total time elapsed from the start
         # Average Turnaround Time = (Sum of Turnaround Time of all processes) / (Number of processes)
         average_waiting = scheduler.totalWaitingTime / len(scheduler.readyQueue)
         average_turnaround = scheduler.totalTurnaroundTime / len(scheduler.readyQueue)
+        # append the metrics to the corresponding lists
         average_waiting_times.append(average_waiting)
         average_turnaround_times.append(average_turnaround)
-        print(f"Average Waiting Time: {average_waiting:.2f}")
-        print(f"Average Turnaround Time: {average_turnaround:.2f}")
+        # CPU Utilization(%) = (Total Execution Time / Total Simulation Time) * 100
+        cpu_utilizations.append((scheduler.totalExecutionTime / scheduler.currentTime) * 100)
         scheduler.resetSchedulerTime()      # reset the scheduler time and total turnaround time
         
-    # print the average metrics for each algorithm in a table for easier comparison
+    # Display the metrics for each algorithm to compare them at glance
     print(f"\nThe number of processes simulated: {len(processList)}")
-    print(" Algorithm\tAverage Turnaround Time(ms)\tAverage Waiting Time(ms)")
+    print(" Algorithm\tAverage Turnaround Time(ms)\tAverage Waiting Time(ms)\tCPU Utilization(%)")
     for i in range(len(algorithmNames)):
-        print(f"{algorithmNames[i]:>10}\t{average_turnaround_times[i]:<10.2f}\t\t\t{average_waiting_times[i]:<10.2f}")                   
+        print(f"{algorithmNames[i]:>10}\t{average_turnaround_times[i]:<10.2f}\t\t\
+            {average_waiting_times[i]:<10.2f}\t\t\t{cpu_utilizations[i]:>10.2f}")                   
         
     # visualize the average metrics of scheduling algorithms by plotting a bar graph
     barWidth = 0.25

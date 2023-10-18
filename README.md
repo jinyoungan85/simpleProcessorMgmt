@@ -11,6 +11,11 @@ The goal of this Python code is to simulate different scheduling algorithms (FCF
 
 By default, this code simulates 100 processes with parameters stored in processes.txt. If processes.txt does not exist, the code will generate the file with random numbers.
 
+Upon completion of the simulation, the following metrics for algorithms will be displayed:
+- Average Turnaround Time(ms)
+- Average Waiting Time(ms)
+- CPU Utilization(%)
+
 ## Getting Started
 
 ### Required Dependency
@@ -51,6 +56,7 @@ Navigate to your local repository, run the Python code using the following comma
     python processorMgmt.py
 ```
 
+### Expected Output
 ![image](https://github.com/jinyoungan85/simpleProcessorMgmt/assets/50179109/8ff91ea2-cfe4-45d0-bac7-5e6401b1458b)
 
 ![image](https://github.com/jinyoungan85/simpleProcessorMgmt/assets/50179109/779396a2-4088-49e1-a3a3-4c7e4103ec40)
