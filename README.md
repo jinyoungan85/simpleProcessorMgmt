@@ -5,6 +5,7 @@ a Python program that simulates the execution of processes on a CPU using differ
 - [About](#about)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
+- [Expected Output](#expected-output)
 
 ## About
 The goal of this Python code is to simulate different scheduling algorithms (FCFS, SJF, Priority) on processes with various attributes such as processID, arrivalTime, burstTime, and priority. The code collects the result of each scheduling algorithhm, and visualize the result in a bar plot for easier comparison.
@@ -19,7 +20,7 @@ Upon completion of the simulation, the following metrics for algorithms will be 
 ## Getting Started
 
 ### Required Dependency
-Please install the followings if needed:
+Please install the following if needed:
 
 - Python 3.8 (or higher version)
 - matplotlib 3.7.2 (or higher version)
@@ -44,7 +45,7 @@ To install Matplotlib, you can use the following command:
 ```
 
 ## Usage
-Once you've installed the required dependencies, clone the repository into your local system using below command:
+Once you've installed the required dependencies, clone the repository into your local system using the below command:
 
 ```bash
     git clone https://github.com/jinyoungan85/simpleProcessorMgmt.git
@@ -57,6 +58,6 @@ Navigate to your local repository, run the Python code using the following comma
 ```
 
 ### Expected Output
-![image](https://github.com/jinyoungan85/simpleProcessorMgmt/assets/50179109/8ff91ea2-cfe4-45d0-bac7-5e6401b1458b)
+![image](https://github.com/jinyoungan85/simpleProcessorMgmt/assets/50179109/d4ecf301-94d3-4c8d-bda4-f609212d4b15)
 
 ![image](https://github.com/jinyoungan85/simpleProcessorMgmt/assets/50179109/779396a2-4088-49e1-a3a3-4c7e4103ec40)
