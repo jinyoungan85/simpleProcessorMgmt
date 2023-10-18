@@ -50,3 +50,7 @@ Navigate to your local repository, run the Python code using the following comma
 ```bash
     python processorMgmt.py
 ```
+
+![image](https://github.com/jinyoungan85/simpleProcessorMgmt/assets/50179109/8ff91ea2-cfe4-45d0-bac7-5e6401b1458b)
+
+![image](https://github.com/jinyoungan85/simpleProcessorMgmt/assets/50179109/779396a2-4088-49e1-a3a3-4c7e4103ec40)
