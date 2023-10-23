@@ -19,17 +19,6 @@ Upon completion of the simulation, the following metrics for algorithms will be 
 
 ## Getting Started
 
-### Required Dependency
-Please install the following if needed:
-
-- Python 3.8 (or higher version)
-- matplotlib 3.7.2 (or higher version)
-
-```bash
-    conda install python
-    conda install matplotlib
-```
-
 ### Required Dependencies
 Please make sure you have the following dependencies installed:
 
